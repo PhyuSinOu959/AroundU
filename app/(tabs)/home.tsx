@@ -2,7 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
-import { FlatList, Image, ScrollView, Text, TextInput, View } from 'react-native';
+import { FlatList, Image, Text, TextInput, View } from 'react-native';
 import MapView, { type Region } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -94,7 +94,7 @@ export default function Home() {
 
   const renderCategoryItem = (item: any) => {
     return (
-      <View style={{ alignItems: 'center', padding: 10 }}>
+      <View style={{ alignItems: 'center', padding: 8 }}>
         <View
           style={{
             backgroundColor: 'white',
@@ -151,54 +151,56 @@ export default function Home() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#DDEEDC' }} edges={['top']}>
-      <ScrollView>
-        <View style={{}}>
-          <View style={{ padding: 8, backgroundColor: 'white', borderRadius: 16, margin: 16 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8 }}>
-              <Ionicons name="search" size={18} color="grey" style={{ marginRight: 6 }} />
-              <TextInput
-                placeholder="Find a shop or place"
-                style={{ flex: 1, paddingVertical: 8 }}
-              />
-            </View>
-          </View>
-          <View style={{ margin: 16 }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Near You</Text>
-            <View style={{ backgroundColor: 'white', borderRadius: 16, padding: 8, marginTop: 8 }}>
-              <MapView
-                style={{ width: '100%', height: 200 }}
-                region={region}
-                onRegionChangeComplete={setRegion}
-                showsUserLocation
-                showsMyLocationButton
-                followsUserLocation
-              />
-            </View>
-          </View>
-          <View style={{ margin: 16 }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Explore By Category</Text>
-            <FlatList
-              data={categories}
-              renderItem={({ item }) => renderCategoryItem(item)}
-              horizontal
-            />
-          </View>
-        </View>
-        <View style={{ margin: 16 }}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Suggested Shops</Text>
+      <FlatList
+        data={shops}
+        renderItem={({ item }) => renderShopItem(item)}
+        numColumns={2}
+        keyExtractor={(item) => item.name}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingVertical: 8, paddingHorizontal: 10 }}
+        ListHeaderComponent={
           <View>
-            <FlatList
-              data={shops}
-              renderItem={({ item }) => renderShopItem(item)}
-              numColumns={2}
-              keyExtractor={(item) => item.name}
-              columnWrapperStyle={{ justifyContent: 'space-between' }}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingVertical: 8 }}
-            />
+            <View style={{ padding: 8, backgroundColor: 'white', borderRadius: 16, margin: 16 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8 }}>
+                <Ionicons name="search" size={18} color="grey" style={{ marginRight: 6 }} />
+                <TextInput
+                  placeholder="Find a shop or place"
+                  style={{ flex: 1, paddingVertical: 8 }}
+                />
+              </View>
+            </View>
+            <View style={{ margin: 16 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Near You</Text>
+              <View
+                style={{ backgroundColor: 'white', borderRadius: 16, padding: 8, marginTop: 8 }}
+              >
+                <MapView
+                  style={{ width: '100%', height: 200 }}
+                  region={region}
+                  onRegionChangeComplete={setRegion}
+                  showsUserLocation
+                  showsMyLocationButton
+                  followsUserLocation
+                />
+              </View>
+            </View>
+            <View style={{ margin: 16 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Explore By Category</Text>
+              <FlatList
+                data={categories}
+                renderItem={({ item }) => renderCategoryItem(item)}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingVertical: 8 }}
+              />
+            </View>
+            <View style={{ marginHorizontal: 16, marginBottom: 8 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Suggested Shops</Text>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        }
+      />
     </SafeAreaView>
   );
 }
