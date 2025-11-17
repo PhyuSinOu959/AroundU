@@ -110,7 +110,8 @@ function PrimaryButton({
         styles.button,
         pressed && !disabled ? styles.buttonPressed : null,
         disabled ? styles.buttonDisabled : null,
-      ]}>
+      ]}
+    >
       <ThemedText type="defaultSemiBold" style={styles.buttonText}>
         {label}
       </ThemedText>
@@ -162,5 +163,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
-

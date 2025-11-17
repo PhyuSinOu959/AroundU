@@ -7,4 +7,6 @@ module.exports = defineConfig([
   {
     ignores: ['dist/*'],
   },
+  // Disable any ESLint rules that conflict with Prettier formatting
+  require('eslint-config-prettier'),
 ]);

@@ -14,7 +14,8 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{
@@ -32,19 +33,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="favorites"
         options={{
-          title: "Favorites",
-          tabBarIcon: ({ color, size }) => (
-            <IconSymbol name="heart" size={size} color={color} />
-          ),
+          title: 'Favorites',
+          tabBarIcon: ({ color, size }) => <IconSymbol name="heart" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <IconSymbol name="person" size={size} color={color} />
-          ),
+          title: 'Profile',
+          tabBarIcon: ({ color, size }) => <IconSymbol name="person" size={size} color={color} />,
         }}
       />
     </Tabs>
