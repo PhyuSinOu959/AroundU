@@ -31,7 +31,7 @@ export default function PermissionScreen() {
 
   useEffect(() => {
     if (status === 'granted' && servicesEnabled) {
-      router.replace('/(tabs)');
+      router.replace('/');
     }
   }, [status, servicesEnabled, router]);
 

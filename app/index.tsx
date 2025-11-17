@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 export default function IndexGate() {
-  const [dest, setDest] = useState<string | null>(null);
+  const [dest, setDest] = useState<'/home' | '/permission' | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -17,7 +17,7 @@ export default function IndexGate() {
         if (!mounted) return;
         const hasPermission = perm.status === 'granted';
         const ready = hasPermission && servicesEnabled;
-        setDest(ready ? '/(tabs)' : '/permission');
+        setDest(ready ? '/home' : '/permission');
       } catch {
         if (!mounted) return;
         setDest('/permission');
