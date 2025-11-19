@@ -2,11 +2,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
-import { FlatList, Image, Text, TextInput, View } from 'react-native';
+import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MapView, { type Region } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Home() {
+  const [search, setSearch] = useState('');
   const categories = [
     {
       id: 1,
@@ -167,7 +168,14 @@ export default function Home() {
                 <TextInput
                   placeholder="Find a shop or place"
                   style={{ flex: 1, paddingVertical: 8 }}
+                  value={search}
+                  onChangeText={setSearch}
                 />
+                {search.length > 0 && (
+                  <TouchableOpacity onPress={() => setSearch('')}>
+                    <Ionicons name="close" size={18} color="grey" style={{ marginRight: 6 }} />
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
             <View style={{ margin: 16 }}>
