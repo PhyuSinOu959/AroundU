@@ -1,6 +1,7 @@
 // app/(tabs)/home.tsx
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
+import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MapView, { type Region } from 'react-native-maps';
@@ -8,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Home() {
   const [search, setSearch] = useState('');
+  const router = useRouter();
   const categories = [
     {
       id: 1,
@@ -42,24 +44,28 @@ export default function Home() {
       distance: 0.8,
       open: true,
       image: require('@/app/src/assets/images/coffeeShop.jpg'),
+      categoryId: 1,
     },
     {
       name: 'Bloom Garden Shop',
       distance: 1.2,
       open: false,
       image: require('@/app/src/assets/images/plantShop.jpg'),
+      categoryId: 2,
     },
     {
       name: 'Urban Bites Food Court',
       distance: 0.5,
       open: true,
       image: require('@/app/src/assets/images/plantShop.jpg'),
+      categoryId: 3,
     },
     {
       name: 'ArtHive Studio',
       distance: 1.9,
       open: false,
       image: require('@/app/src/assets/images/coffeeShop.jpg'),
+      categoryId: 4,
     },
   ];
 
@@ -95,7 +101,16 @@ export default function Home() {
 
   const renderCategoryItem = (item: any) => {
     return (
-      <View style={{ alignItems: 'center', padding: 8 }}>
+      <TouchableOpacity
+        onPress={() =>
+          router.push({
+            pathname: '/category/[categrorId]',
+            params: { categrorId: String(item.id), id: String(item.id), name: item.name },
+          })
+        }
+        style={{ alignItems: 'center', padding: 8 }}
+        activeOpacity={0.7}
+      >
         <View
           style={{
             backgroundColor: 'white',
@@ -110,7 +125,7 @@ export default function Home() {
           <Ionicons name={item.icon} size={24} color="green" />
         </View>
         <Text style={{ fontSize: 16, textAlign: 'center' }}>{item.name}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
