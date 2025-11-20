@@ -40,31 +40,39 @@ export default function Home() {
 
   const shops = [
     {
+      id: '1',
       name: 'Green Leaf Cafe',
       distance: 0.8,
       open: true,
       image: require('@/app/src/assets/images/coffeeShop.jpg'),
+      imageKey: 'coffeeShop',
       categoryId: 1,
     },
     {
+      id: '2',
       name: 'Bloom Garden Shop',
       distance: 1.2,
       open: false,
       image: require('@/app/src/assets/images/plantShop.jpg'),
+      imageKey: 'plantShop',
       categoryId: 2,
     },
     {
+      id: '3',
       name: 'Urban Bites Food Court',
       distance: 0.5,
       open: true,
       image: require('@/app/src/assets/images/plantShop.jpg'),
+      imageKey: 'plantShop',
       categoryId: 3,
     },
     {
+      id: '4',
       name: 'ArtHive Studio',
       distance: 1.9,
       open: false,
       image: require('@/app/src/assets/images/coffeeShop.jpg'),
+      imageKey: 'coffeeShop',
       categoryId: 4,
     },
   ];
@@ -131,37 +139,53 @@ export default function Home() {
 
   const renderShopItem = (item: any) => {
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          borderRadius: 16,
-          overflow: 'hidden',
-          marginBottom: 12,
-          shadowColor: '#000',
-          shadowOpacity: 0.08,
-          shadowRadius: 8,
-          shadowOffset: { width: 0, height: 4 },
-          elevation: 2,
-          margin: 6,
-        }}
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() =>
+          router.push({
+            pathname: '/shop/[shopId]',
+            params: {
+              shopId: String(item.id),
+              name: item.name,
+              distance: String(item.distance),
+              open: String(item.open),
+              imageKey: item.imageKey,
+              categoryId: String(item.categoryId),
+            },
+          } as any)
+        }
+        style={{ flex: 1, margin: 6 }}
       >
-        <Image source={item.image} style={{ width: '100%', height: 120 }} resizeMode="cover" />
-        <View style={{ padding: 12 }}>
-          <Text
-            style={{ fontSize: 18, fontWeight: 'bold', lineHeight: 22, minHeight: 44 }}
-            numberOfLines={2}
-          >
-            {item.name}
-          </Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }}>
-            <Text style={{ fontSize: 14, color: 'grey' }}>{item.distance} km</Text>
-            <Text style={{ fontSize: 14, color: item.open ? 'green' : 'red' }}>
-              {item.open ? 'Open' : 'Closed'}
+        <View
+          style={{
+            backgroundColor: 'white',
+            borderRadius: 16,
+            overflow: 'hidden',
+            marginBottom: 12,
+            shadowColor: '#000',
+            shadowOpacity: 0.08,
+            shadowRadius: 8,
+            shadowOffset: { width: 0, height: 4 },
+            elevation: 2,
+          }}
+        >
+          <Image source={item.image} style={{ width: '100%', height: 120 }} resizeMode="cover" />
+          <View style={{ padding: 12 }}>
+            <Text
+              style={{ fontSize: 18, fontWeight: 'bold', lineHeight: 22, minHeight: 44 }}
+              numberOfLines={2}
+            >
+              {item.name}
             </Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }}>
+              <Text style={{ fontSize: 14, color: 'grey' }}>{item.distance} km</Text>
+              <Text style={{ fontSize: 14, color: item.open ? 'green' : 'red' }}>
+                {item.open ? 'Open' : 'Closed'}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -171,7 +195,7 @@ export default function Home() {
         data={shops}
         renderItem={({ item }) => renderShopItem(item)}
         numColumns={2}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => String(item.id)}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingVertical: 8, paddingHorizontal: 10 }}
