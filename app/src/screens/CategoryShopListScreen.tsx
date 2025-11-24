@@ -44,6 +44,15 @@ export default function CategoryShopListScreen() {
       imageKey: 'coffeeShop',
       categoryId: 4,
     },
+    {
+      id: '5',
+      name: 'BookHive Studio',
+      distance: 1.9,
+      open: false,
+      image: require('@/app/src/assets/images/coffeeShop.jpg'),
+      imageKey: 'coffeeShop',
+      categoryId: 5,
+    },
   ];
 
   const categoryId = Number(params?.id ?? 0);

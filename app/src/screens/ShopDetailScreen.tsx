@@ -1,3 +1,6 @@
+import { Shop, useFavorites } from '@/app/src/store/favorites';
+import { imageForKey } from '@/app/src/utils/images';
+import Ionicons from '@expo/vector-icons/build/Ionicons';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,25 +14,7 @@ type ShopParam = {
   imageKey?: string; // 'coffeeShop' | 'plantShop'
 };
 
-type Shop = {
-  id: string;
-  name: string;
-  distance: number;
-  open: boolean;
-  imageKey: 'coffeeShop' | 'plantShop';
-  categoryId: number;
-};
-
-const imageForKey = (key?: string) => {
-  switch (key) {
-    case 'coffeeShop':
-      return require('@/app/src/assets/images/coffeeShop.jpg');
-    case 'plantShop':
-      return require('@/app/src/assets/images/plantShop.jpg');
-    default:
-      return require('@/app/src/assets/images/coffeeShop.jpg');
-  }
-};
+// Shop type is imported from store; imageForKey from utils
 
 const ALL_SHOPS: Shop[] = [
   {
@@ -64,11 +49,20 @@ const ALL_SHOPS: Shop[] = [
     imageKey: 'coffeeShop',
     categoryId: 4,
   },
+  {
+    id: '5',
+    name: 'BookHive Studio',
+    distance: 1.9,
+    open: false,
+    imageKey: 'coffeeShop',
+    categoryId: 5,
+  },
 ];
 
 export default function ShopDetailScreen() {
   const params = useLocalSearchParams<ShopParam>();
   const router = useRouter();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const currentShop: Shop = {
     id: params.shopId ?? '0',
@@ -97,6 +91,10 @@ export default function ShopDetailScreen() {
     });
   };
 
+  const handleFavorite = (shop: Shop) => {
+    toggleFavorite(shop);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#DDEEDC' }} edges={['top']}>
       <Stack.Screen options={{ title: currentShop.name }} />
@@ -107,7 +105,28 @@ export default function ShopDetailScreen() {
           resizeMode="cover"
         />
         <View style={{ padding: 16 }}>
-          <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{currentShop.name}</Text>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+          >
+            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{currentShop.name}</Text>
+            {isFavorite(currentShop.id) ? (
+              <Ionicons
+                name="heart"
+                size={24}
+                color="red"
+                style={{ marginRight: 8, alignSelf: 'center' }}
+                onPress={() => handleFavorite(currentShop)}
+              />
+            ) : (
+              <Ionicons
+                name="heart-outline"
+                size={24}
+                color="black"
+                style={{ marginRight: 8, alignSelf: 'center' }}
+                onPress={() => handleFavorite(currentShop)}
+              />
+            )}
+          </View>
           <View style={{ flexDirection: 'row', marginTop: 8 }}>
             <View
               style={{

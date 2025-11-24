@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Linking, Pressable, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Image, Linking, Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -49,6 +49,11 @@ export default function PermissionScreen() {
     }
   };
 
+  const continueManually = () => {
+    requestPermission();
+    router.replace('/home');
+  };
+
   const openSettings = () => {
     Linking.openSettings();
   };
@@ -58,6 +63,9 @@ export default function PermissionScreen() {
   return (
     <ThemedView style={styles.container}>
       <View style={styles.content}>
+        <View style={styles.imageContainer}>
+          <Image source={require('@/app/src/assets/images/locationMap.jpg')} style={styles.image} />
+        </View>
         <ThemedText type="title" style={styles.title}>
           Enable your location
         </ThemedText>
@@ -73,6 +81,11 @@ export default function PermissionScreen() {
             <ThemedText style={styles.helper}>
               Location permission is denied. You can change this in Settings.
             </ThemedText>
+            <PrimaryButton
+              label="Choose location manually"
+              onPress={continueManually}
+              variant="secondary"
+            />
           </>
         ) : status === 'granted' && servicesEnabled === false ? (
           <>
@@ -80,13 +93,25 @@ export default function PermissionScreen() {
             <ThemedText style={styles.helper}>
               Location services are turned off. Please enable them in Settings.
             </ThemedText>
+            <PrimaryButton
+              label="Choose location manually"
+              onPress={continueManually}
+              variant="secondary"
+            />
           </>
         ) : (
-          <PrimaryButton
-            label={requesting ? 'Requesting…' : 'Allow Location Access'}
-            onPress={requestPermission}
-            disabled={requesting}
-          />
+          <>
+            <PrimaryButton
+              label={requesting ? 'Requesting…' : 'Use current location'}
+              onPress={requestPermission}
+              disabled={requesting}
+            />
+            <PrimaryButton
+              label="Choose location manually"
+              onPress={continueManually}
+              variant="secondary"
+            />
+          </>
         )}
       </View>
     </ThemedView>
@@ -97,10 +122,12 @@ function PrimaryButton({
   label,
   onPress,
   disabled,
+  variant = 'primary',
 }: {
   label: string;
   onPress: () => void;
   disabled?: boolean;
+  variant?: 'primary' | 'secondary';
 }) {
   return (
     <Pressable
@@ -110,9 +137,13 @@ function PrimaryButton({
         styles.button,
         pressed && !disabled ? styles.buttonPressed : null,
         disabled ? styles.buttonDisabled : null,
+        variant === 'secondary' ? styles.buttonSecondary : null,
       ]}
     >
-      <ThemedText type="defaultSemiBold" style={styles.buttonText}>
+      <ThemedText
+        type="defaultSemiBold"
+        style={variant === 'secondary' ? styles.buttonTextSecondary : styles.buttonText}
+      >
         {label}
       </ThemedText>
     </Pressable>
@@ -131,6 +162,17 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     gap: 16,
+  },
+  imageContainer: {
+    width: '100%',
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   title: {
     textAlign: 'center',
@@ -159,7 +201,15 @@ const styles = StyleSheet.create({
   buttonDisabled: {
     opacity: 0.6,
   },
+  buttonSecondary: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#007AFF',
+  },
   buttonText: {
     color: 'white',
+  },
+  buttonTextSecondary: {
+    color: '#007AFF',
   },
 });
