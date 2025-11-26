@@ -228,20 +228,22 @@ export default function Home() {
             </View>
             <View style={{ margin: 16 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Near You</Text>
-              <View
-                style={{ backgroundColor: 'white', borderRadius: 16, padding: 8, marginTop: 8 }}
-              >
-                <MapView
-                  style={{ width: '100%', height: 200 }}
-                  region={region}
-                  onRegionChangeComplete={setRegion}
-                  showsUserLocation
-                  showsMyLocationButton
-                  followsUserLocation
-                  zoomEnabled
-                  zoomControlEnabled
-                />
-              </View>
+              <TouchableOpacity onPress={() => router.push('/map')}>
+                <View
+                  style={{ backgroundColor: 'white', borderRadius: 16, padding: 8, marginTop: 8 }}
+                >
+                  <MapView
+                    style={{ width: '100%', height: 200 }}
+                    region={region}
+                    onRegionChangeComplete={setRegion}
+                    showsUserLocation
+                    showsMyLocationButton
+                    followsUserLocation
+                    zoomEnabled
+                    zoomControlEnabled
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
             <View style={{ margin: 16 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Explore By Category</Text>
