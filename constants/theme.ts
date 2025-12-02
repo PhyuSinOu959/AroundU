@@ -5,17 +5,22 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+// Cohesive green palette
+const tintColorLight = '#2F6E60'; // primary green
+const tintColorDark = '#A7F3D0'; // mint/green for dark contrast
 
 export const Colors = {
   light: {
     text: '#11181C',
-    background: '#fff',
+    background: '#FFFFFF',
     tint: tintColorLight,
     icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
+    card: '#FFFFFF',
+    muted: '#E8F2EE',
+    danger: '#DC2626',
+    border: '#E5E7EB',
   },
   dark: {
     text: '#ECEDEE',
@@ -24,6 +29,10 @@ export const Colors = {
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
+    card: '#0E1512',
+    muted: '#0F2019',
+    danger: '#FCA5A5',
+    border: '#223127',
   },
 };
 
